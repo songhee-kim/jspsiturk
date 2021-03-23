@@ -19,8 +19,12 @@
         <link href="jspsych/css/jspsych.css" rel="stylesheet" type="text/css"></link>
 
         <style>
-          h {text-align: center; font-size:200%;}
+          h {text-align: center; font-size:250%;}
+          p.qn {text-align: center; font-size:180%;}
+          p.ex {text-align: center; font-size:140%;}
           p {text-align: center; font-size:150%;}
+          p.prompt {text-align: left; font-size:150%;}
+          ul.a {list-style-type: square; margin: 0; padding: 40; font-size:140%; text-align:left;}
           input[type="radio"] {height: 20px; width: 20px; vertical-align: middle;}
         </style>
     </head>
@@ -60,7 +64,7 @@
         var newarray_shuffle = jsPsych.randomization.shuffle(newarray)
         //console.log(newarray_shuffle);
         var stims = stims.concat(newarray_shuffle);
-        console.log(stims.length);
+        //console.log(stims.length);
     };
     //console.log(stims.length);
 
