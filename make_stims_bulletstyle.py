@@ -43,20 +43,20 @@ for vb in verbs:
         examples_neat = [dic.get(ex) for ex in examples]
 
         if len(examples_neat) == 3: 
-            stims['question'] = ('<h><b> %s </b></h><br><br><p class="qn"><b> %s </b></p><br><p class="ex">For comparison, <b> %s </b> might receive a high rating on ' +
-              'this question, because %s <br><br>In contrast, <b> %s </b> might receive a medium rating, because ' +
-              '%s <br><br>Finally, <b> %s </b> might receive a low rating, because %s </p><br><p class="prompt">Your rating for <b>%s</b>:</p>') %(lemma, query, h_ex, h_exp, m_ex, m_exp, l_ex, l_exp, lemma)
+            stims['question'] = ('<h><b>%s</b></h><br><br><p class="qn"><b> %s </b></p><br><ul class="a"><li><b>%s</b> might receive a high rating on ' +
+              'this question, because %s </li><br><br><li><b> %s </b> might receive a medium rating, because ' +
+              '%s </li><br><br><li><b> %s </b> might receive a low rating, because %s </li></ul><br><p class="prompt">Your rating for <b>%s</b>:</p>') %(lemma, query, h_ex, h_exp, m_ex, m_exp, l_ex, l_exp, lemma)
             # print (stims['question'])
         elif len(examples_neat) == 2:
             if examples_neat == ['h', 'm']:
-                stims['question'] = ('<h><b> %s </b></h><br><br><p class="qn"><b> %s </b></p><br><p class="ex">For comparison, <b> %s </b> might receive a high rating on ' +
-                  'this question, because %s <br><br>In contrast, <b> %s </b> might receive a medium rating, because ' +
-                  '%s </p><br><p class="prompt">Your rating for <b>%s</b>:</p>') %(lemma, query, h_ex, h_exp, m_ex, m_exp, lemma)
+                stims['question'] = ('<h><b>%s</b></h><br><br><p class="qn"><b> %s </b></p><br><ul class="a"><li><b> %s </b> might receive a high rating on ' +
+                  'this question, because %s </li><br><br><li><b> %s </b> might receive a medium rating, because ' +
+                  '%s </li></ul><br><p class="prompt">Your rating for <b>%s</b>:</p>') %(lemma, query, h_ex, h_exp, m_ex, m_exp, lemma)
                 # print (stims['question']) 
             elif examples_neat == ['h', 'l']:
-                stims['question'] = ('<h><b> %s </b></h><br><br><p class="qn"><b> %s </b></p><br><p class="ex">For comparison, <b> %s </b> might receive a high rating on ' +
-                  'this question, because %s <br><br>In contrast, <b> %s </b> might receive a low rating, because ' +
-                  '%s </p><br><p class="prompt">Your rating for <b>%s</b>:</p>') %(lemma, query, h_ex, h_exp, l_ex, l_exp, lemma)
+                stims['question'] = ('<h><b> %s </b></h><br><br><p class="qn"><b> %s </b></p><br><ul class="a"><li><b> %s </b> might receive a high rating on ' +
+                  'this question, because %s </li><br><br><li><b> %s </b> might receive a low rating, because ' +
+                  '%s </li></ul><br><p class="prompt">Your rating for <b>%s</b>:</p>') %(lemma, query, h_ex, h_exp, l_ex, l_exp, lemma)
                 # print (stims['question'])                
 
             else: 
