@@ -1,0 +1,190 @@
+<!doctype html>
+<html>
+    <head>
+        <title>Event Concept Pilot Survey</title>
+        <script src="jspsych/jspsych.js" type="text/javascript"></script>
+        <script src="jspsych/plugins/jspsych-text.js" type="text/javascript"></script>
+
+        <script src="jspsych/plugins/jspsych-instructions.js" type="text/javascript"></script>
+        <script src="jspsych/plugins/jspsych-html-keyboard-response.js" type="text/javascript"></script>
+        <script src="jspsych/plugins/jspsych-survey-likert.js" type="text/javascript"></script>
+        <script src="jspsych/plugins/jspsych-survey-text.js" type="text/javascript"></script>
+        <script src="queries/build.js" type="text/javascript"></script>
+        <script src="queries/knock.js" type="text/javascript"></script>
+        <script src="queries/notice.js" type="text/javascript"></script>
+        <script src="queries/reach.js" type="text/javascript"></script>
+        <script src="queries/read.js" type="text/javascript"></script>
+        <script src="queries/run.js" type="text/javascript"></script>
+
+        <link href="jspsych/css/jspsych.css" rel="stylesheet" type="text/css"></link>
+
+        <style>
+          h {text-align: center; font-size:200%;}
+          p {text-align: center; font-size:150%;}
+          input[type="radio"] {height: 20px; width: 20px; vertical-align: middle;}
+        </style>
+    </head>
+
+    <body></body>
+
+    <!-- experiment logic script -->
+    <!-- <script src="/static/js/task.js" type="text/javascript"> -->
+
+    <script>
+    function shuffle(arra1) {
+        var ctr = arra1.length, temp, index;
+
+    // While there are elements in the array
+        while (ctr > 0) {
+    // Pick a random index
+            index = Math.floor(Math.random() * ctr);
+    // Decrease ctr by 1
+            ctr--;
+    // And swap the last element with it
+            temp = arra1[ctr];
+            arra1[ctr] = arra1[index];
+            arra1[index] = temp;
+        }
+        return arra1;
+    }
+
+    verbs = ['build', 'knock', 'notice', 'reach', 'read', 'run'];
+    verbs_shuffled = shuffle(verbs); // ['knock', 'reach', 'run', 'build', 'read', 'notice']
+
+    var stims = jsPsych.randomization.shuffle(window[verbs_shuffled[0]]); // knock array
+    //console.log(stims.length);
+    //erbs_shuffled.shift(); //['reach', 'run', 'build', 'read', 'notice']
+
+    for (i=1; i < verbs_shuffled.length; i++){
+        var newarray = window[verbs_shuffled[i]]
+        var newarray_shuffle = jsPsych.randomization.shuffle(newarray)
+        //console.log(newarray_shuffle);
+        var stims = stims.concat(newarray_shuffle);
+        console.log(stims.length);
+    };
+    //console.log(stims.length);
+
+    
+    // var ar1 = [1,2,3];
+    // console.log(ar1);
+    // var combined = [1,2,3];
+    // var ar_set = [[4,5,6], [7,8,9], [10,11,12]];
+    // for (i=1; i<ar_set.length; i++){ 
+    //     var combined = combined.concat(ar_set[i]);
+    //     console.log(combined.length);
+    // }
+    // console.log(combined);
+
+
+   
+    var timeline = [];
+
+    var welcome_block = {
+    type: 'instructions',
+    pages: ['<p> Welcome to a pilot survey on event concepts. <br><br>Your participation will greatly help us build an actual survey.<br><br><br>Click "next" to begin.</p>',
+      '<p>In this survey, you will rate various verbs against a range of properties. </p>',
+      '<p>You will rate a total of 6 different verbs in the survey.</p><br>',
+      '<p>Click to start the survey.</p>'],
+    show_clickable_nav: true,
+    show_page_number: true,
+    // on_start: function(){
+    //     jsPsych.setProgressBar(0);
+    // };
+    };
+    timeline.push(welcome_block);
+
+
+    var name_trial = {
+        type: 'survey-text',
+        questions: [
+        {prompt: "(Optional) Enter your name or initial:"}
+        ],
+    };
+
+    timeline.push(name_trial);
+
+    var scale=["Not\nApplicable", "0", "1", "2", "3", "4", "5", "6"];
+
+    //stims = jsPsych.randomization.shuffle(stims);
+    stims_n = stims.length;
+
+    var blank_screen = {
+        type: 'html-keyboard-response',
+        stimulus: '',
+        choices: jsPsych.NO_KEYS,
+        trial_duration:100,
+    };
+
+    var crea_question_trial = {
+      type: 'survey-likert',
+      questions: function() {
+        var prompts = [
+        {
+            prompt: jsPsych.timelineVariable("question", true),
+            name: jsPsych.timelineVariable("attribute", true),
+            labels: scale, 
+            required: true,
+            //lemma: jsPsych.timelineVariable("verb", true), //don't know if this is accepted by plugin
+        },
+        ];
+        return prompts;
+      },
+      data: {lemma: jsPsych.timelineVariable("verb"), feature: jsPsych.timelineVariable("attribute")},
+      // data: {condition: jsPsych.timelineVariable('condition'), correct_response:jsPsych.timelineVariable('correct_response')},
+      randomize_question_order: true,
+      on_finish: function() {
+        var curr_progress_bar_value = jsPsych.getProgressBarCompleted();
+        jsPsych.setProgressBar(curr_progress_bar_value + (1/stims_n))
+      }
+      };
+
+
+    var crea_survey_procedure = {
+                timeline: [crea_question_trial, blank_screen],
+                timeline_variables: stims
+            }
+    timeline.push(crea_survey_procedure);
+
+
+    /* record id, condition, counterbalance on every trial */
+    // jsPsych.data.addProperties({
+    //     uniqueId: uniqueId
+    //     // condition: condition,
+    //     // counterbalance: counterbalance
+    // });
+ 
+var bye_block = {
+    type: 'instructions',
+    pages: ['You reached the end of the experiment. Thank you for your participation! Click to exit.'],
+    show_clickable_nav: true,
+    show_page_number: false,
+    on_start: function(){
+        jsPsych.setProgressBar(1);
+    }
+  };
+
+timeline.push(bye_block)
+
+
+jsPsych.init({
+    // display_element: 'jspsych-target',
+    timeline: timeline,
+    show_progress_bar: true,
+    auto_update_progress_bar: false,
+    on_finish: function() {
+        jsPsych.data.displayData();
+    },
+});
+
+
+    </script>
+
+</html>
+
+
+
+
+
+
+
+
