@@ -4,14 +4,13 @@ import pandas as pd
 import math
 #%pprint
 
-verbs = ['run', 'read', 'reach', 'knock', 'build', 'notice']
+# verbs = ['run', 'read', 'reach', 'knock', 'build', 'notice']
+verbs = ['run']
 
 #queryf = pd.read_excel('/Users/songkim/Google Drive/Primary/Projects/VerbVector/query/query_v0.xlsx', index_col='Name')
-<<<<<<< HEAD
-queryf = pd.read_excel('/Users/songheekim/Google Drive/Primary/Projects/VerbVector/query/query_v1.xlsx', index_col='Name')
-=======
-queryf = pd.read_excel('/Users/songheekim/Google Drive/Primary/Projects/VerbVector/query/query_v0.xlsx', index_col='Name')
->>>>>>> 774571db96033d87421c6937eae8903d13a974aa
+
+queryf = pd.read_excel('/Users/songkim/Google Drive/Primary/Projects/VerbVector/query/query_v1.xlsx', index_col='Name')
+
 queryf_event = queryf.iloc[-7:]  ## select only the 7 newly added features 
 feature_names = queryf_event.index.tolist()
 query_dict = queryf_event.to_dict(orient='index')
@@ -19,12 +18,10 @@ grand_stims_list = []
 #print (queryf.head())
 #print (query_dict['State of Being'])
 
-
 ## let's build a dict that will be converted into a json object
 for vb in verbs: 
     stims_list = []
     for k, v in query_dict.items():
-<<<<<<< HEAD
         lemma = vb.upper().strip()
         print ('lemma:', lemma)
         stims = dict()
@@ -37,6 +34,7 @@ for vb in verbs:
         l_ex = v['Low Example'].strip()
         l_exp = v['Low Explanation'].strip()
         stims['attribute'] = k.strip() ## 'Boundedness'
+        stims['verb'] = vb
 
         examples = []
         dic = {0:'h', 1:'m', 2:'l'}
@@ -68,48 +66,26 @@ for vb in verbs:
         else:
             print ('example number is neither 3 nor 2')
 
-=======
-        lemma = vb.capitalize()
-        stims = dict()
-        attribute = k
-        print (attribute)
-        #relation = q[1]['Relation']
-        query = v['Query']
-        h_ex = v['High Example']
-        h_exp = v['High Explanation']
-        m_ex = v['Med Example']
-        m_exp = v['Medium Explanation']
-        l_ex = v['Low Example']
-        l_exp = v['Low Explanation']
-        stims['attribute'] = attribute ## 'Boundedness'
-        if 
-        stims['question'] = ("<h><b> %s </b></h><br><p><b> "%s?" </b></p><p> For comparison, <b> %s  </b> would receive a high rating on " +
-          'this question, because %s <br><br>In contrast, <b> %s </b> might receive a medium rating, because ' +
-          "%s </p><br><p>Your rating for <b>%s</b>:</p>") %(lemma, query, h_ex, h_exp, m_ex, m_exp, v)
->>>>>>> 774571db96033d87421c6937eae8903d13a974aa
+
         stims_list.append(stims)
-        grand_stims_list.append(stims)
-    # print (vb)
-    # print (stims_list)
-    # break
-
-
+        grand_stims_list.append(stims)       
     # with open("/Users/songheekim/Google Drive/Primary/Projects/VerbVector/query/%s.json" %(vb), "w") as outfile:
     #     json.dump(stims_list, outfile) ## This writes everything in ONE line. 
-    with open("/Users/songheekim/Google Drive/Primary/Projects/VerbVector/query/%s.js" %(vb), "w") as outfile: 
+    with open("/Users/songkim/Google Drive/Primary/Projects/VerbVector/query/%s.js" %(vb), "w") as outfile: 
         outfile.write('var stims=[')
         for feature in stims_list:
             outfile.write(json.dumps(feature))
             outfile.write(",\n")
         outfile.write(']')
 
-print ('# of stims in pilot_stim:', len(grand_stims_list))
-with open("/Users/songheekim/Google Drive/Primary/Projects/VerbVector/query/pilot_stim.js", "w") as outfile: 
-    outfile.write('var stims=[')
-    for feature in grand_stims_list:
-        outfile.write(json.dumps(feature))
-        outfile.write(",\n")
-    outfile.write(']')
+
+# print ('# of stims in pilot_stim:', len(grand_stims_list))
+# with open("/Users/songheekim/Google Drive/Primary/Projects/VerbVector/query/pilot_stim.js", "w") as outfile: 
+#     outfile.write('var stims=[')
+#     for feature in grand_stims_list:
+#         outfile.write(json.dumps(feature))
+#         outfile.write(",\n")
+#     outfile.write(']')
 
 
 
