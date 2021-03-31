@@ -4,14 +4,20 @@ import pandas as pd
 import math
 #%pprint
 
-verbs = ['run', 'read', 'reach', 'knock', 'build', 'notice']
+# verbs = ['flourish', 'exist', 'run', 'read', 'build', 'arrive', 'depart', \
+#          'begin', 'knock', 'contain', 'restrict', 'throw', 'find', 'hesitate']
+
+verbs = ['throw']
 
 #queryf = pd.read_excel('/Users/songkim/Google Drive/Primary/Projects/VerbVector/query/query_v0.xlsx', index_col='Name')
 
-queryf = pd.read_excel('/Users/songkim/Google Drive/Primary/Projects/VerbVector/query/query_v1.xlsx', index_col='Name')
+queryf = pd.read_excel('/Users/songkim/Google Drive/Primary/Projects/VerbVector/query/query_v2.xlsx', index_col='Name')
 
-queryf_event = queryf.iloc[-7:]  ## select only the 7 newly added features 
+queryf_caused = queryf.loc[queryf.index=='Caused']
+queryf_event = queryf.iloc[-5:]  ## select only the 7 newly added features
+queryf_event = pd.concat([queryf_caused, queryf_event]) 
 feature_names = queryf_event.index.tolist()
+print (feature_names)
 query_dict = queryf_event.to_dict(orient='index')
 grand_stims_list = []
 #print (queryf.head())
